@@ -898,7 +898,7 @@ namespace SharpTox.Core
 
             byte[] name = new byte[ToxConstants.MaxNameLength];
             if (ToxFunctions.GroupGetPeername(_tox, groupNumber, peerNumber, name) == -1)
-                throw new Exception("Could not get peer name");
+                return string.Empty;
 
             return ToxTools.RemoveNull(Encoding.UTF8.GetString(name, 0, name.Length));
         }
