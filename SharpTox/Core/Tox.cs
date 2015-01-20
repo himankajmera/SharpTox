@@ -861,7 +861,6 @@ namespace SharpTox.Core
         /// <summary>
         /// Joins a group with the given public key of the group.
         /// </summary>
-        /// <param name="friendNumber"></param>
         /// <param name="inviteKey"></param>
         /// <returns></returns>
         public int JoinGroup(byte[] inviteKey)
@@ -1831,12 +1830,12 @@ namespace SharpTox.Core
             }
         }
 
-        private EventHandler<ToxEventArgs.GroupPeerJoinedEventArgs> _onGroupPeerExit;
+        private EventHandler<ToxEventArgs.GroupPeerExitEventArgs> _onGroupPeerExit;
 
         /// <summary>
         /// Occurs when a peer sends you a private message from a group.
         /// </summary>
-        public event EventHandler<ToxEventArgs.GroupPeerJoinedEventArgs> OnGroupPeerExit
+        public event EventHandler<ToxEventArgs.GroupPeerExitEventArgs> OnGroupPeerExit
         {
             add
             {
@@ -1845,7 +1844,7 @@ namespace SharpTox.Core
                     _onGroupPeerExitCallback = (IntPtr tox, int groupNumber, uint peerNumber, byte[] partMessage, ushort length, IntPtr userData) =>
                     {
                         if (_onGroupPeerExit != null)
-                            Invoker(_onGroupPeerExit, this, new ToxEventArgs.GroupPeerExitEventArgs(groupNumber, (int)peerNumber));
+                            Invoker(_onGroupPeerExit, this, new ToxEventArgs.GroupPeerExitEventArgs(groupNumber, (int)peerNumber, ToxTools.RemoveNull(Encoding.UTF8.GetString(partMessage, 0, length))));
                     };
 
                     ToxFunctions.RegisterGroupPeerExitCallback(_tox, _onGroupPeerExitCallback, IntPtr.Zero);

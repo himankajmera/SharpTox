@@ -335,8 +335,13 @@ namespace SharpTox.Core
 
         public class GroupPeerExitEventArgs : GroupBaseEventArgs
         {
-            public GroupPeerExitEventArgs(int groupNumber, int peerNumber)
-                : base(groupNumber, peerNumber) { }
+            public string PartMessage { get; private set; }
+
+            public GroupPeerExitEventArgs(int groupNumber, int peerNumber, string partMessage)
+                : base(groupNumber, peerNumber)
+            {
+                PartMessage = partMessage;
+            }
         }
 
         public class GroupSelfJoinEventArgs : EventArgs
