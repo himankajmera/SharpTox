@@ -167,14 +167,24 @@ namespace SharpTox.Core
             }
         }
 
-        public class GroupNamelistChangeEventArgs : GroupBaseEventArgs
+        public class GroupPrivateMessageEventArgs : GroupBaseEventArgs
         {
-            public ToxChatChange Change { get; private set; }
+            public string Message { get; private set; }
 
-            public GroupNamelistChangeEventArgs(int groupNumber, int peerNumber, ToxChatChange change)
+            public GroupPrivateMessageEventArgs(int groupNumber, int peerNumber, string message)
                 : base(groupNumber, peerNumber)
             {
-                Change = change;
+                Message = message;
+            }
+        }
+
+        public class GroupPeerlistUpdateEventArgs : EventArgs
+        {
+            public int GroupNumber { get; private set; }
+
+            public GroupPeerlistUpdateEventArgs(int groupNumber)
+            {
+                GroupNumber = groupNumber;
             }
         }
 
@@ -277,14 +287,88 @@ namespace SharpTox.Core
             }
         }
 
-        public class GroupTitleEventArgs : GroupBaseEventArgs
+        public class GroupTopicEventArgs : GroupBaseEventArgs
         {
-            public string Title { get; private set; }
+            public string Topic { get; private set; }
 
-            public GroupTitleEventArgs(int groupNumber, int peerNumber, string title)
+            public GroupTopicEventArgs(int groupNumber, int peerNumber, string topic)
                 : base(groupNumber, peerNumber)
             {
-                Title = title;
+                Topic = topic;
+            }
+        }
+
+        public class GroupOpCertificateEventArgs : EventArgs
+        {
+            public int GroupNumber { get; private set; }
+
+            public int SourcePeerNumber { get; private set; }
+            public int TargetPeerNumber { get; private set; }
+
+            public ToxGroupOpCertificate Certificate { get; private set; }
+
+            public GroupOpCertificateEventArgs(int groupNumber, int sourcePeerNumber, int targetPeerNumber, ToxGroupOpCertificate cert)
+            {
+                GroupNumber = groupNumber;
+                SourcePeerNumber = sourcePeerNumber;
+                TargetPeerNumber = targetPeerNumber;
+                Certificate = cert;
+            }
+        }
+
+        public class GroupNickChangedEventArgs : GroupBaseEventArgs
+        {
+            public string NewNick;
+
+            public GroupNickChangedEventArgs(int groupNumber, int peerNumber, string newNick)
+                : base(groupNumber, peerNumber)
+            {
+                NewNick = newNick;
+            }
+        }
+
+        public class GroupPeerJoinedEventArgs : GroupBaseEventArgs 
+        {
+            public GroupPeerJoinedEventArgs(int groupNumber, int peerNumber)
+                : base(groupNumber, peerNumber) { }
+        }
+
+        public class GroupPeerExitEventArgs : GroupBaseEventArgs
+        {
+            public GroupPeerExitEventArgs(int groupNumber, int peerNumber)
+                : base(groupNumber, peerNumber) { }
+        }
+
+        public class GroupSelfJoinEventArgs : EventArgs
+        {
+            public int GroupNumber { get; private set; }
+
+            public GroupSelfJoinEventArgs(int groupNumber)
+            {
+                GroupNumber = groupNumber;
+            }
+        }
+
+        public class GroupSelfTimeoutEventArgs : EventArgs
+        {
+            public int GroupNumber { get; private set; }
+
+            public GroupSelfTimeoutEventArgs(int groupNumber)
+            {
+                GroupNumber = groupNumber;
+            }
+        }
+
+        public class GroupRejectEventArgs : EventArgs
+        {
+            public int GroupNumber { get; private set; }
+
+            public ToxGroupJoinRejectedReason Reason { get; private set; }
+
+            public GroupRejectEventArgs(int groupNumber, ToxGroupJoinRejectedReason reason)
+            {
+                GroupNumber = groupNumber;
+                Reason = reason;
             }
         }
     }

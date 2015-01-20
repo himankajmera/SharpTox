@@ -135,33 +135,6 @@ namespace SharpTox.Core
         [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_get_self_name_size")]
         public static extern int GetSelfNameSize(ToxHandle tox);
 
-        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_add_groupchat")]
-        public static extern int AddGroupchat(ToxHandle tox);
-
-        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_del_groupchat")]
-        public static extern int DelGroupchat(ToxHandle tox, int groupnumber);
-
-        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_peername")]
-        public static extern int GroupPeername(ToxHandle tox, int groupnumber, int peernumber, byte[] name);
-
-        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_invite_friend")]
-        public static extern int InviteFriend(ToxHandle tox, int friendnumber, int groupnumber);
-
-        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_join_groupchat")]
-        public static extern int JoinGroupchat(ToxHandle tox, int friendnumber, byte[] data, ushort length);
-
-        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_message_send")]
-        public static extern int GroupMessageSend(ToxHandle tox, int groupnumber, byte[] message, ushort length);
-
-        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_action_send")]
-        public static extern int GroupActionSend(ToxHandle tox, int groupnumber, byte[] action, ushort length);
-
-        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_number_peers")]
-        public static extern int GroupNumberPeers(ToxHandle tox, int groupnumber);
-
-        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, EntryPoint = "tox_group_get_names")]
-        public static extern int GroupGetNames(ToxHandle tox, int groupnumber, byte[,] names, ushort[] lengths, ushort length);
-
         [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_count_chatlist")]
         public static extern uint CountChatlist(ToxHandle tox);
 
@@ -222,20 +195,108 @@ namespace SharpTox.Core
         [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_unset_avatar")]
         public static extern int UnsetAvatar(ToxHandle tox);
 
-        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_peernumber_is_ours")]
-        public static extern uint GroupPeerNumberIsOurs(ToxHandle tox, int groupnumber, int peernumber);
+#region Group Functions
 
-        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_set_title")]
-        public static extern int GroupSetTitle(ToxHandle tox, int groupnumber, byte[] title, byte length);
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_new")]
+        public static extern int GroupNew(ToxHandle tox, byte[] groupName, ushort length);
 
-        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_get_type")]
-        public static extern int GroupGetType(ToxHandle tox, int groupnumber);
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_new_join")]
+        public static extern int GroupNewJoin(ToxHandle tox, byte[] inviteKey);
 
-        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_get_title")]
-        public static extern int GroupGetTitle(ToxHandle tox, int groupnumber, byte[] title, uint max_length);
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_delete")]
+        public static extern int GroupDelete(ToxHandle tox, int groupnumber, byte[] partMessage, ushort length);
 
-        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_peer_pubkey")]
-        public static extern int GroupPeerPubkey(ToxHandle tox, int groupnumber, int peernumber, byte[] pk);
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_private_message_send")]
+        public static extern int GroupPrivateMessageSend(ToxHandle tox, int groupnumber, uint peerNumber, byte[] message, ushort length);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_message_send")]
+        public static extern int GroupMessageSend(ToxHandle tox, int groupnumber, byte[] message, ushort length);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_action_send")]
+        public static extern int GroupActionSend(ToxHandle tox, int groupnumber, byte[] action, ushort length);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_op_certificate_send")]
+        public static extern int GroupOpCertificateSend(ToxHandle tox, int groupnumber, int peernumber, ToxGroupOpCertificate cert);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_get_peer_name")]
+        public static extern int GroupGetPeername(ToxHandle tox, int groupnumber, int peernumber, byte[] name);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_set_name")]
+        public static extern int GroupSetName(ToxHandle tox, int groupnumber, byte[] name, ushort length);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_get_self_name")]
+        public static extern int GroupGetSelfName(ToxHandle tox, int groupnumber, byte[] name);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_set_topic")]
+        public static extern int GroupSetTopic(ToxHandle tox, int groupnumber, byte[] topic, ushort length);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_get_topic")]
+        public static extern int GroupGetTopic(ToxHandle tox, int groupnumber, byte[] topic);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_get_group_name")]
+        public static extern int GroupGetGroupName(ToxHandle tox, int groupnumber, byte[] groupName);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_set_status")]
+        public static extern int GroupSetStatus(ToxHandle tox, int groupnumber, ToxGroupStatus status);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_get_status")]
+        public static extern ToxGroupStatus GroupGetStatus(ToxHandle tox, int groupnumber, uint peerNumber);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_get_role")]
+        public static extern ToxGroupRole GroupGetRole(ToxHandle tox, int groupnumber, uint peerNumber);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_get_invite_key")]
+        public static extern int GroupGetInviteKey(ToxHandle tox, int groupnumber, byte[] dest);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_get_number_peers")]
+        public static extern int GroupNumberPeers(ToxHandle tox, int groupnumber);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, EntryPoint = "tox_group_toggle_ignore")]
+        public static extern int GroupToggleIgnore(ToxHandle tox, int groupnumber, uint peerNumber, byte ignore);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, EntryPoint = "tox_group_get_names")]
+        public static extern int GroupGetNames(ToxHandle tox, int groupnumber, byte[,] names, ushort[] lengths, uint length);
+
+
+
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_callback_group_message")]
+        public static extern void RegisterGroupMessageCallback(ToxHandle tox, ToxDelegates.CallbackGroupMessageDelegate callback, IntPtr userdata);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_callback_group_private_message")]
+        public static extern void RegisterGroupPrivateMessageCallback(ToxHandle tox, ToxDelegates.CallbackGroupPrivateMessageDelegate callback, IntPtr userdata);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_callback_group_action")]
+        public static extern void RegisterGroupActionCallback(ToxHandle tox, ToxDelegates.CallbackGroupActionDelegate callback, IntPtr userdata);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_callback_group_op_certificate")]
+        public static extern void RegisterGroupOpCertificateCallback(ToxHandle tox, ToxDelegates.CallbackGroupOpCertificateDelegate callback, IntPtr userdata);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_callback_group_nick_change")]
+        public static extern void RegisterGroupNickChangeCallback(ToxHandle tox, ToxDelegates.CallbackGroupNickChangeDelegate callback, IntPtr userdata);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_callback_group_topic_change")]
+        public static extern void RegisterGroupTopicChangeCallback(ToxHandle tox, ToxDelegates.CallbackGroupTopicChangeDelegate callback, IntPtr userdata);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_callback_group_peer_join")]
+        public static extern void RegisterGroupPeerJoinCallback(ToxHandle tox, ToxDelegates.CallbackGroupPeerJoinDelegate callback, IntPtr userdata);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_callback_group_peer_exit")]
+        public static extern void RegisterGroupPeerExitCallback(ToxHandle tox, ToxDelegates.CallbackGroupPeerExitDelegate callback, IntPtr userdata);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_callback_group_self_join")]
+        public static extern void RegisterGroupSelfJoinCallback(ToxHandle tox, ToxDelegates.CallbackGroupSelfJoinDelegate callback, IntPtr userdata);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_callback_group_peerlist_update")]
+        public static extern void RegisterGroupPeerlistUpdateCallback(ToxHandle tox, ToxDelegates.CallbackGroupPeerlistUpdateDelegate callback, IntPtr userdata);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_callback_group_self_timeout")]
+        public static extern void RegisterGroupSelfTimeoutCallback(ToxHandle tox, ToxDelegates.CallbackGroupSelfTimeoutDelegate callback, IntPtr userdata);
+
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_callback_group_rejected")]
+        public static extern void RegisterGroupRejectedCallback(ToxHandle tox, ToxDelegates.CallbackGroupRejectedDelegate callback, IntPtr userdata);
+
+#endregion
 
         #endregion
 
@@ -264,18 +325,6 @@ namespace SharpTox.Core
         [DllImport(dll, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, EntryPoint = "tox_callback_typing_change")]
         public static extern void RegisterTypingChangeCallback(ToxHandle tox, ToxDelegates.CallbackTypingChangeDelegate callback, IntPtr userdata);
 
-        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_callback_group_invite")]
-        public static extern void RegisterGroupInviteCallback(ToxHandle tox, ToxDelegates.CallbackGroupInviteDelegate callback, IntPtr userdata);
-
-        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_callback_group_message")]
-        public static extern void RegisterGroupMessageCallback(ToxHandle tox, ToxDelegates.CallbackGroupMessageDelegate callback, IntPtr userdata);
-
-        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_callback_group_action")]
-        public static extern void RegisterGroupActionCallback(ToxHandle tox, ToxDelegates.CallbackGroupActionDelegate callback, IntPtr userdata);
-
-        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_callback_group_namelist_change")]
-        public static extern void RegisterGroupNamelistChangeCallback(ToxHandle tox, ToxDelegates.CallbackGroupNamelistChangeDelegate callback, IntPtr userdata);
-
         [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_callback_file_send_request")]
         public static extern void RegisterFileSendRequestCallback(ToxHandle tox, ToxDelegates.CallbackFileSendRequestDelegate callback, IntPtr userdata);
 
@@ -299,9 +348,6 @@ namespace SharpTox.Core
 
         [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_callback_avatar_data")]
         public static extern void RegisterAvatarDataCallback(ToxHandle tox, ToxDelegates.CallbackAvatarDataDelegate callback, IntPtr userdata);
-
-        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_callback_group_title")]
-        public static extern void RegisterGroupTitleCallback(ToxHandle tox, ToxDelegates.CallbackGroupTitleDelegate callback, IntPtr userdata);
 
         #endregion
     }

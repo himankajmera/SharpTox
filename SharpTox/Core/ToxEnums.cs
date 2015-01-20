@@ -184,4 +184,38 @@
         Socks5,
         Http
     }
+
+    public enum ToxGroupRole : byte
+    {
+        Founder,
+        Op,
+        User,
+        Observer,
+        Banned,
+        Invalid
+    }
+
+    public enum ToxGroupStatus : byte
+    {
+        None,
+        Away,
+        Busy,
+        Invalid
+    }
+
+    public enum ToxGroupOpCertificate
+    {
+        Ban,
+        PromoteOp,
+        RevokeOp,
+        Silence
+    }
+
+    public enum ToxGroupJoinRejectedReason
+    {
+        NickTaken,
+        GroupFull,
+        InvitesDisabled,
+        InviteFailed
+    }
 }

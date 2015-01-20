@@ -39,5 +39,9 @@
         /// The size of a public key.
         /// </summary>
         public const int ClientIdSize = 32;
+
+        public const int MaxGroupTopicLength = 512;
+        public const int MaxGroupNameLength = 128;
+        public const int GroupChatIdSize = 64;
     }
 }

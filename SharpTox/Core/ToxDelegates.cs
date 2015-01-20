@@ -32,18 +32,6 @@ namespace SharpTox.Core
         public delegate void CallbackFriendRequestDelegate(IntPtr tox, [MarshalAs(UnmanagedType.LPArray, SizeConst = ToxConstants.ClientIdSize)] byte[] publicKey, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] byte[] message, ushort length, IntPtr userData);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void CallbackGroupInviteDelegate(IntPtr tox, int friendNumber, byte type, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] byte[] data, ushort length, IntPtr userData);
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void CallbackGroupMessageDelegate(IntPtr tox, int groupNumber, int peerNumber, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] byte[] message, ushort length, IntPtr userData);
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void CallbackGroupActionDelegate(IntPtr tox, int groupNumber, int peerNumber, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] byte[] action, ushort length, IntPtr userData);
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void CallbackGroupNamelistChangeDelegate(IntPtr tox, int groupNumber, int peerNumber, ToxChatChange change, IntPtr userData);
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void CallbackFileDataDelegate(IntPtr tox, int friendNumber, byte fileNumber, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] byte[] data, ushort length, IntPtr userData);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -64,8 +52,44 @@ namespace SharpTox.Core
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void CallbackAvatarDataDelegate(IntPtr tox, int friendNumber, byte format, [In, MarshalAs(UnmanagedType.LPArray, SizeConst = ToxConstants.ToxHashLength)] byte[] hash, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 5)] byte[] data, uint dataLength, IntPtr userData);
 
+
+
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void CallbackGroupTitleDelegate(IntPtr tox, int groupNumber, int peerNumber, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] byte[] title, byte length, IntPtr userData);
+        public delegate void CallbackGroupMessageDelegate(IntPtr tox, int groupNumber, int peerNumber, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] byte[] message, ushort length, IntPtr userData);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void CallbackGroupActionDelegate(IntPtr tox, int groupNumber, int peerNumber, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] byte[] action, ushort length, IntPtr userData);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void CallbackGroupPrivateMessageDelegate(IntPtr tox, int groupNumber, uint peerNumber, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] byte[] message, ushort length, IntPtr userData);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void CallbackGroupOpCertificateDelegate(IntPtr tox, int groupNumber, uint sourcePeerNumber, uint targetPeerNumber, ToxGroupOpCertificate cert, IntPtr userData);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void CallbackGroupNickChangeDelegate(IntPtr tox, int groupNumber, uint peerNumber, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] byte[] newNick, ushort length, IntPtr userData);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void CallbackGroupTopicChangeDelegate(IntPtr tox, int groupNumber, uint peerNumber, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] byte[] topic, ushort length, IntPtr userData);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void CallbackGroupPeerJoinDelegate(IntPtr tox, int groupNumber, uint peerNumber, IntPtr userData);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void CallbackGroupPeerExitDelegate(IntPtr tox, int groupNumber, uint peerNumber, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] byte[] partMessage, ushort length, IntPtr userData);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void CallbackGroupSelfJoinDelegate(IntPtr tox, int groupNumber, IntPtr userData);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void CallbackGroupPeerlistUpdateDelegate(IntPtr tox, int groupNumber, IntPtr userData);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void CallbackGroupSelfTimeoutDelegate(IntPtr tox, int groupNumber, IntPtr userData);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void CallbackGroupRejectedDelegate(IntPtr tox, int groupNumber, ToxGroupJoinRejectedReason reason, IntPtr userData);
     }
 }
 
