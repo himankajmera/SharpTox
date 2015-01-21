@@ -1326,7 +1326,7 @@ namespace SharpTox.Core
 
             byte[] bytes = Encoding.UTF8.GetBytes(topic);
 
-            return ToxFunctions.GroupSetTopic(_tox, groupNumber, bytes, (byte)bytes.Length) == 0;
+            return ToxFunctions.GroupSetTopic(_tox, groupNumber, bytes, (ushort)bytes.Length) == 0;
         }
 
         /// <summary>
@@ -1349,6 +1349,76 @@ namespace SharpTox.Core
             Array.Copy(topic, 0, result, 0, length);
 
             return ToxTools.RemoveNull(Encoding.UTF8.GetString(result, 0, length));
+        }
+
+        public bool ToggleIgnore(int groupNumber, int peerNumber, bool ignore)
+        {
+            if (_disposed)
+                throw new ObjectDisposedException(GetType().FullName);
+
+            return ToxFunctions.GroupToggleIgnore(_tox, groupNumber, (uint)peerNumber, ignore ? (byte)1 : (byte)0) == 0;
+        }
+
+        public ToxGroupRole GetRole(int groupNumber, int peerNumber)
+        {
+            if (_disposed)
+                throw new ObjectDisposedException(GetType().FullName);
+
+            return ToxFunctions.GroupGetRole(_tox, groupNumber, (uint)peerNumber);
+        }
+
+        public ToxGroupStatus GetStatus(int groupNumber, int peerNumber)
+        {
+            if (_disposed)
+                throw new ObjectDisposedException(GetType().FullName);
+
+            return ToxFunctions.GroupGetStatus(_tox, groupNumber, (uint)peerNumber);
+        }
+
+        public bool SetStatus(int groupNumber, ToxGroupStatus status)
+        {
+            if (_disposed)
+                throw new ObjectDisposedException(GetType().FullName);
+
+            return ToxFunctions.GroupSetStatus(_tox, groupNumber, status) == 0;
+        }
+
+        public string GetGroupName(int groupNumber)
+        {
+            if (_disposed)
+                throw new ObjectDisposedException(GetType().FullName);
+
+            byte[] name = new byte[ToxConstants.MaxGroupNameLength]; 
+            int length = ToxFunctions.GroupGetGroupName(_tox, groupNumber, name);
+            if (length == -1)
+                return string.Empty;
+
+            byte[] result = new byte[length];
+            Array.Copy(name, 0, result, 0, length);
+
+            return ToxTools.RemoveNull(Encoding.UTF8.GetString(result));
+        }
+
+        public bool SetSelfName(int groupNumber, string name)
+        {
+            if (_disposed)
+                throw new ObjectDisposedException(GetType().FullName);
+
+            byte[] bytes = Encoding.UTF8.GetBytes(name);
+            int result = ToxFunctions.GroupSetName(_tox, groupNumber, bytes, (ushort)bytes.Length);
+
+            if (result == -2)
+                throw new Exception("Nickname already in use");
+
+            return result == 0;
+        }
+
+        public bool SendOpCertificate(int groupNumber, int peerNumber, ToxGroupOpCertificate cert)
+        {
+            if (_disposed)
+                throw new ObjectDisposedException(GetType().FullName);
+
+            return ToxFunctions.GroupOpCertificateSend(_tox, groupNumber, (uint)peerNumber, cert) == 0;
         }
 
         #region Events

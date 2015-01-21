@@ -216,7 +216,7 @@ namespace SharpTox.Core
         public static extern int GroupActionSend(ToxHandle tox, int groupnumber, byte[] action, ushort length);
 
         [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_op_certificate_send")]
-        public static extern int GroupOpCertificateSend(ToxHandle tox, int groupnumber, int peernumber, ToxGroupOpCertificate cert);
+        public static extern int GroupOpCertificateSend(ToxHandle tox, int groupnumber, uint peernumber, ToxGroupOpCertificate cert);
 
         [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_get_peer_name")]
         public static extern int GroupGetPeername(ToxHandle tox, int groupnumber, int peernumber, byte[] name);
