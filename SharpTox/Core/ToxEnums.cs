@@ -200,6 +200,7 @@
         None,
         Away,
         Busy,
+        Offline,
         Invalid
     }
 

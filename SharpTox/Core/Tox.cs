@@ -45,6 +45,7 @@ namespace SharpTox.Core
         private ToxDelegates.CallbackGroupPeerlistUpdateDelegate _onGroupPeerlistUpdateCallback;
         private ToxDelegates.CallbackGroupSelfTimeoutDelegate _onGroupSelfTimeoutCallback;
         private ToxDelegates.CallbackGroupRejectedDelegate _onGroupRejectedCallback;
+        private ToxDelegates.CallbackGroupInviteDelegate _onGroupInviteCallback;
 
         private ToxDelegates.CallbackFileControlDelegate _onFileControlCallback;
         private ToxDelegates.CallbackFileDataDelegate _onFileDataCallback;
@@ -1405,7 +1406,7 @@ namespace SharpTox.Core
                 throw new ObjectDisposedException(GetType().FullName);
 
             byte[] bytes = Encoding.UTF8.GetBytes(name);
-            int result = ToxFunctions.GroupSetName(_tox, groupNumber, bytes, (ushort)bytes.Length);
+            int result = ToxFunctions.GroupSelfSetName(_tox, groupNumber, bytes, (ushort)bytes.Length);
 
             if (result == -2)
                 throw new Exception("Nickname already in use");
@@ -1419,6 +1420,22 @@ namespace SharpTox.Core
                 throw new ObjectDisposedException(GetType().FullName);
 
             return ToxFunctions.GroupOpCertificateSend(_tox, groupNumber, (uint)peerNumber, cert) == 0;
+        }
+
+        public bool InviteFriend(int groupNumber, int friendNumber)
+        {
+            if (_disposed)
+                throw new ObjectDisposedException(GetType().FullName);
+
+            return ToxFunctions.GroupInviteFriend(_tox, groupNumber, friendNumber) == 0;
+        }
+
+        public int AcceptInvite(byte[] inviteData)
+        {
+            if (_disposed)
+                throw new ObjectDisposedException(GetType().FullName);
+
+            return ToxFunctions.GroupAcceptInvite(_tox, inviteData, (ushort)inviteData.Length);
         }
 
         #region Events
@@ -2305,6 +2322,40 @@ namespace SharpTox.Core
                 }
 
                 _onGroupTopicChanged -= value;
+            }
+        }
+
+        private EventHandler<ToxEventArgs.GroupInviteEventArgs> _onGroupInvite;
+
+        /// <summary>
+        /// Occurs when an invite to a group is received
+        /// </summary>
+        public event EventHandler<ToxEventArgs.GroupInviteEventArgs> OnGroupInvite
+        {
+            add
+            {
+                if (_onGroupInviteCallback == null)
+                {
+                    _onGroupInviteCallback = (IntPtr tox, int friendNumber, byte[] inviteData, ushort length, IntPtr userData) =>
+                    {
+                        if (_onGroupInvite != null)
+                            Invoker(_onGroupInvite, this, new ToxEventArgs.GroupInviteEventArgs(friendNumber, inviteData));
+                    };
+
+                    ToxFunctions.RegisterGroupInviteCallback(_tox, _onGroupInviteCallback, IntPtr.Zero);
+                }
+
+                _onGroupInvite += value;
+            }
+            remove
+            {
+                if (_onGroupInvite.GetInvocationList().Length == 1)
+                {
+                    ToxFunctions.RegisterGroupInviteCallback(_tox, null, IntPtr.Zero);
+                    _onGroupInviteCallback = null;
+                }
+
+                _onGroupInvite -= value;
             }
         }
 

@@ -43,5 +43,6 @@
         public const int MaxGroupTopicLength = 512;
         public const int MaxGroupNameLength = 128;
         public const int GroupChatIdSize = 64;
+        public const int GroupInviteDataSize = 160;
     }
 }

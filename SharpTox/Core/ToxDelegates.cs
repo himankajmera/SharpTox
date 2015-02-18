@@ -90,6 +90,9 @@ namespace SharpTox.Core
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void CallbackGroupRejectedDelegate(IntPtr tox, int groupNumber, ToxGroupJoinRejectedReason reason, IntPtr userData);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void CallbackGroupInviteDelegate(IntPtr tox, int friendNumber, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] byte[] inviteData, ushort length, IntPtr userData);
     }
 }
 
