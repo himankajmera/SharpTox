@@ -937,7 +937,7 @@ namespace SharpTox.Core
         /// </summary>
         /// <param name="groupNumber"></param>
         /// <returns></returns>
-        public byte[] GetInviteKey(int groupNumber)
+        public ToxGroupInviteKey GetInviteKey(int groupNumber)
         {
             if (_disposed)
                 throw new ObjectDisposedException(GetType().FullName);
@@ -945,7 +945,7 @@ namespace SharpTox.Core
             byte[] dest = new byte[ToxConstants.GroupChatIdSize];
             int length = ToxFunctions.GroupGetInviteKey(_tox, groupNumber, dest);
 
-            return dest;
+            return new ToxGroupInviteKey(dest);
         }
 
         /// <summary>
@@ -1430,12 +1430,12 @@ namespace SharpTox.Core
             return ToxFunctions.GroupInviteFriend(_tox, groupNumber, friendNumber) == 0;
         }
 
-        public int AcceptInvite(byte[] inviteData)
+        public int AcceptInvite(ToxGroupInviteKey inviteKey)
         {
             if (_disposed)
                 throw new ObjectDisposedException(GetType().FullName);
 
-            return ToxFunctions.GroupAcceptInvite(_tox, inviteData, (ushort)inviteData.Length);
+            return ToxFunctions.GroupAcceptInvite(_tox, inviteKey.Bytes, (ushort)inviteKey.Bytes.Length);
         }
 
         #region Events
@@ -2339,7 +2339,7 @@ namespace SharpTox.Core
                     _onGroupInviteCallback = (IntPtr tox, int friendNumber, byte[] inviteData, ushort length, IntPtr userData) =>
                     {
                         if (_onGroupInvite != null)
-                            Invoker(_onGroupInvite, this, new ToxEventArgs.GroupInviteEventArgs(friendNumber, inviteData));
+                            Invoker(_onGroupInvite, this, new ToxEventArgs.GroupInviteEventArgs(friendNumber, new ToxGroupInviteKey(inviteData)));
                     };
 
                     ToxFunctions.RegisterGroupInviteCallback(_tox, _onGroupInviteCallback, IntPtr.Zero);

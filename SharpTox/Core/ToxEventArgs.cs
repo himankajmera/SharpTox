@@ -133,14 +133,14 @@ namespace SharpTox.Core
 
         public class GroupInviteEventArgs : FriendBaseEventArgs
         {
-            public byte[] Data { get; private set; }
+            public ToxGroupInviteKey InviteKey { get; private set; }
 
             public ToxGroupType GroupType { get; private set; }
 
-            public GroupInviteEventArgs(int friendNumber, byte[] data)
+            public GroupInviteEventArgs(int friendNumber, ToxGroupInviteKey inviteKey)
                 : base(friendNumber)
             {
-                Data = (byte[])data.Clone();
+                InviteKey = inviteKey;
             }
         }
 
