@@ -201,7 +201,7 @@ namespace SharpTox.Core
         public static extern int GroupNew(ToxHandle tox, byte[] groupName, ushort length);
 
         [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_new_join")]
-        public static extern int GroupNewJoin(ToxHandle tox, byte[] inviteKey);
+        public static extern int GroupNewJoin(ToxHandle tox, byte[] chatId);
 
         [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_delete")]
         public static extern int GroupDelete(ToxHandle tox, int groupnumber, byte[] partMessage, ushort length);
@@ -245,8 +245,8 @@ namespace SharpTox.Core
         [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_get_role")]
         public static extern ToxGroupRole GroupGetRole(ToxHandle tox, int groupnumber, uint peerNumber);
 
-        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_get_invite_key")]
-        public static extern int GroupGetInviteKey(ToxHandle tox, int groupnumber, byte[] dest);
+        [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_get_chat_id")]
+        public static extern int GroupGetChatId(ToxHandle tox, int groupnumber, byte[] dest);
 
         [DllImport(dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tox_group_get_number_peers")]
         public static extern int GroupNumberPeers(ToxHandle tox, int groupnumber);

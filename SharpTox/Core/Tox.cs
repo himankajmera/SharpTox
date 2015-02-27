@@ -943,7 +943,7 @@ namespace SharpTox.Core
                 throw new ObjectDisposedException(GetType().FullName);
 
             byte[] dest = new byte[ToxConstants.GroupChatIdSize];
-            int length = ToxFunctions.GroupGetInviteKey(_tox, groupNumber, dest);
+            int length = ToxFunctions.GroupGetChatId(_tox, groupNumber, dest);
 
             return new ToxGroupInviteKey(dest);
         }
