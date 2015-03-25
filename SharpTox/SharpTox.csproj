@@ -158,6 +158,7 @@
   <ItemGroup>
     <Compile Include="Av\ToxAvEventArgs.cs" />
     <Compile Include="Av\ToxAvHandle.cs" />
+    <Compile Include="Core\BaseEmojiFunctions.cs" />
     <Compile Include="Core\Tox.cs" />
     <Compile Include="Core\ToxData.cs" />
     <Compile Include="Core\ToxEventArgs.cs" />

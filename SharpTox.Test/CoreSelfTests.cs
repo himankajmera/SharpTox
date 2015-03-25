@@ -106,6 +106,21 @@ namespace SharpTox.Test
         }
 
         [TestMethod]
+        public void TestToxEmojiId()
+        {
+            var tox = new Tox(ToxOptions.Default);
+            Console.WriteLine("Original ID: {0}", tox.Id);
+
+            string emojiId = tox.Id.ToEmojiString();
+            Assert.IsTrue(emojiId.Length > 0, "Failed to convert tox id to emoji string");
+
+            Console.WriteLine("Emoji ID: {0}", emojiId);
+
+            var id = ToxId.FromEmojiString(emojiId);
+            Assert.IsTrue(id != null, "Failed to convert emoji string back to tox id");
+        }
+
+        [TestMethod]
         [Timeout(120000)]
         [Ignore]
         public void TestToxProxySocks5()

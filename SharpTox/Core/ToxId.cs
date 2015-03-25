@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections;
+using System.Text;
 
 namespace SharpTox.Core
 {
@@ -98,6 +99,29 @@ namespace SharpTox.Core
         public override string ToString()
         {
             return ToxTools.HexBinToString(_id);
+        }
+
+        public string ToEmojiString()
+        {
+            byte[] bytes = new byte[ToxConstants.AddressSize * 4];
+
+            int length = (int)BaseEmojiFunctions.BytesToEmojiString(bytes, (uint)bytes.Length, _id, (uint)_id.Length);
+            if (length == 0)
+                return string.Empty;
+
+            return Encoding.UTF8.GetString(bytes, 0, length);
+        }
+
+        public static ToxId FromEmojiString(string str)
+        {
+            byte[] bytes = new byte[ToxConstants.AddressSize];
+            byte[] stringBytes = Encoding.UTF8.GetBytes(str);
+
+            int length = (int)BaseEmojiFunctions.EmojiStringToBytes(bytes, (uint)bytes.Length, stringBytes, (uint)stringBytes.Length);
+            if (length != bytes.Length)
+                return null;
+
+            return new ToxId(bytes);
         }
 
         public static bool IsValid(string id)
